@@ -2,7 +2,7 @@
 resource "aws_security_group" "prod-main" {
  name        = "prod-main"
  description = "Allow SSH and HTTP"
- vpc-id      =  vpc-0d5646eb0f4f2476a
+ vpc_id      =  var.vpc_id
 
  ingress {
   description = "Allow port SSH"
@@ -36,6 +36,7 @@ resource "aws_instance" "web-page"{
   subnet_id     = element(data.aws_subnet_ids.default.ids, 0)
   key_name      = var.key_name
   vpc_security_group_ids = [aws_security_group.prod-main.id]
+  associate_public_ip_address = true
 
   tags = {
     Name = "web-page"
