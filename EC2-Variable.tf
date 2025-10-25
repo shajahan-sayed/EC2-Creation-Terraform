@@ -7,7 +7,7 @@ description = "selecting instance type to create instance"
 type = string
 default = "t2.micro"
 }
-variable "AMI_ID" {
+variable "ami_id" {
 description = "selecting AMI image"
 type = string
 }
