@@ -11,7 +11,7 @@ variable "ami_id" {
 description = "selecting AMI image"
 type = string
 }
-variable "Key_Name" {
+variable "Key_name" {
 description = "selecting Key Pair"
 type = string
 }
