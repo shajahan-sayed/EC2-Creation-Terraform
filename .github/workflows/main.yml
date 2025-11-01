@@ -60,13 +60,15 @@ jobs:
         run: terraform validate
 
       # -----------------------------
+            # -----------------------------
       # Step 6. Terraform Plan
       # -----------------------------
       - name: 📜 Terraform Plan
-        run: terraform plan
+        run: terraform plan -var-file=prod.tfvars
 
       # -----------------------------
       # Step 7. Terraform Apply (always runs)
       # -----------------------------
       - name: 🚀 Terraform Apply
-        run: terraform apply -auto-approve
+        if: github.event.inputs.action == 'apply'
+        run: terraform apply -var-file=prod.tfvars -auto-approve
