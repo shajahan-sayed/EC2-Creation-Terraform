@@ -1,0 +1,72 @@
+name: 🏗️ Terraform Deploy to AWS --
+
+on:
+  # push:
+  #   branches:
+  #     - main
+  # pull_request:
+  # workflow_dispatch:   # ✅ Manual trigger from GitHub Actions tab
+  workflow_dispatch:
+    inputs:
+      action:
+        description: "Select Terraform action to perform"
+        required: true
+        default: "apply"
+        type: choice
+        options:
+          - apply
+          - destroy
+
+
+jobs:
+  terraform:
+    name: Terraform Deploy
+    runs-on: ubuntu-latest
+
+    env:
+      AWS_REGION: ap-south-1
+    
+
+    steps:
+      # -----------------------------
+      # Step 1. Checkout repository
+      # -----------------------------
+      - name: 📥 Checkout repository
+        uses: actions/checkout@v4
+      # -----------------------------
+      # Step 3. Setup Terraform
+      # -----------------------------
+      - name: ⚙️ Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.8.0
+
+      - name: 🔑 Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: AKIAQR5EO6LI6J4LKB7J
+          aws-secret-access-key: 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
+
+      # -----------------------------
+      # Step 4. Terraform Init
+      # -----------------------------
+      - name: 🪣 Terraform Init
+        run: terraform init
+
+      # -----------------------------
+      # Step 5. Terraform Validate
+      # -----------------------------
+      - name: ✅ Terraform Validate
+        run: terraform validate
+
+      # -----------------------------
+      # Step 6. Terraform Plan
+      # -----------------------------
+      - name: 📜 Terraform Plan
+        run: terraform plan
+
+      # -----------------------------
+      # Step 7. Terraform Apply (always runs)
+      # -----------------------------
+      - name: 🚀 Terraform Apply
+        run: terraform apply -auto-approve
